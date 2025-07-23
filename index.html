@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Supabase Chat</title>
+  <script type="module" src="chat.js"></script>
+  <style>
+    :root {
+      --bg: #1e1f24;
+      --sidebar: #2f3136;
+      --main: #36393f;
+      --text: #dcddde;
+      --header: #2c2f33;
+      --accent: #7289da;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      background: #36393f;
+      width: 240px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background: var(--header);
+      padding: 0.75rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      font-size: 1.2rem;
+    }
+
+    .profile {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: var(--sidebar);
+      border: 1px solid #444;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .dropdown button {
+      background: none;
+      border: none;
+      color: var(--text);
+      padding: 0.75rem 1rem;
+      text-align: left;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .dropdown button:hover {
+      background: var(--accent);
+    }
+
+    .chat-area {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    #messages div {
+      background: #40444b;
+      padding: 0.75rem;
+      border-radius: 8px;
+      position: relative;
+    }
+
+    .input-area {
+      padding: 1rem;
+      display: flex;
+      gap: 0.5rem;
+      border-top: 1px solid #444;
+      background: var(--header);
+    }
+
+    #msg {
+      flex: 1;
+      padding: 0.6rem;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+      background: #2f3136;
+      color: var(--text);
+      border: 1px solid #ffffff;
+    }
+
+    button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Rooms</h2>
+    <!-- Placeholder for room list -->
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <h1>Supabase Chat</h1>
+      <div class="profile" onclick="toggleDropdown()">
+        <img src="https://avatars.githubusercontent.com/u/9919?s=40" alt="profile" style="border-radius: 50%; width: 32px; height: 32px;" />
+        <div class="dropdown" id="profileDropdown">
+          <button onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-area" id="messages">
+      <!-- Messages will appear here -->
+    </div>
+
+    <div class="input-area">
+      <input id="msg" placeholder="Type a message..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    function toggleDropdown() {
+      const dropdown = document.getElementById("profileDropdown");
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    }
+
+    function logout() {
+      localStorage.removeItem("chatUser");
+      location.href = "index.html";
+    }
+
+    window.addEventListener("click", function(e) {
+      if (!e.target.closest(".profile")) {
+        document.getElementById("profileDropdown").style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
