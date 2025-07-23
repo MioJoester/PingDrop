@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> PingDrop </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+
+  <link rel="icon" href="/Asset/PingIcon.jpg">
+  <meta name="theme-color" content="#111111">
+  <meta name="description" content="Real-time chat application">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="/Asset/PingIcon.jpg">
+
+  <style>
+    :root {
+      --discord-dark: #36393f;
+      --discord-darker: #2f3136;
+      --discord-darkest: #202225;
+      --discord-primary: #5865f2;
+      --discord-primary-hover: #4752c4;
+      --discord-text: #dcddde;
+      --discord-text-muted: #a3a6aa;
+      --discord-error: #ed4245;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #0f0f0f, #5865F2);
+      color: var(--discord-text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 480px;
+      background-color: var(--discord-darker);
+      border-radius: 8px;
+      box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
+      padding: 32px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      transition: all 0.3s ease;
+    }
+
+    @media (max-width: 600px) {
+      .login-box {
+        padding: 24px;
+        max-width: 95%;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .login-box {
+        padding: 20px 16px;
+      }
+    }
+
+    .login-box h2 {
+      color: white;
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 400px) {
+      .login-box h2 {
+        font-size: 20px;
+      }
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      background-color: var(--discord-darkest);
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      border-radius: 3px;
+      color: var(--discord-text);
+      font-size: 16px;
+      transition: all 0.2s ease;
+    }
+
+    @media (max-width: 400px) {
+      .login-box input {
+        padding: 10px;
+        font-size: 14px;
+      }
+    }
+
+    .login-box input:focus {
+      outline: none;
+      border-color: var(--discord-primary);
+    }
+
+    .login-box input::placeholder {
+      color: var(--discord-text-muted);
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--discord-primary);
+      color: white;
+      border: none;
+      border-radius: 3px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    @media (max-width: 400px) {
+      .login-box button {
+        padding: 10px;
+        font-size: 14px;
+      }
+    }
+
+    .login-box button:hover {
+      background-color: var(--discord-primary-hover);
+    }
+
+    .login-box button:active {
+      transform: translateY(1px);
+    }
+
+    .branding {
+      margin-bottom: 30px;
+      font-size: 60px;
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    @media (max-width: 600px) {
+      .branding {
+        font-size: 50px;
+        margin-bottom: 20px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .branding {
+        font-size: 40px;
+      }
+    }
+
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: transparent;
+      z-index: 0;
+    }
+
+    .error-message {
+      color: var(--discord-error);
+      font-size: 14px;
+      margin-top: -15px;
+      margin-bottom: 15px;
+      height: 18px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .error-message.show {
+      opacity: 1;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+  <div class="login-box">
+    <div class="branding">
+      <i class="fas fa-user"></i>
+    </div>
+   
+    <button onclick="loginWithGitHub()">Continue with github</button>
+  </div>
+
+  <script>
+
+
+const client = supabase.createClient(
+  'https://wggypsrylatqicuozout.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndnZ3lwc3J5bGF0cWljdW96b3V0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyMzgxODIsImV4cCI6MjA2ODgxNDE4Mn0.oBtTNLgLL-fZnH-6Q1KmveCTu4_3_ZL-f42A14z_8YA'
+);
+
+async function loginWithGitHub() {
+  const { error } = await client.auth.signInWithOAuth({
+    provider: 'github',
+    options: {
+      redirectTo: 'https://spark-kohl-two.vercel.app/chat.html'
+    }
+  });
+
+  if (error) alert(error.message);
+}
+
+
+    
+    function join() {
+      const name = document.getElementById("username").value.trim();
+      const errorElement = document.getElementById("error-message");
+      
+      if (name) {
+        localStorage.setItem("chatUser", name);
+        window.location.href = "chat.html";
+      } else {
+        // Show error message
+        errorElement.classList.add("show");
+        
+        // Shake animation
+        const loginBox = document.querySelector(".login-box");
+        loginBox.style.animation = "shake 0.5s";
+        setTimeout(() => {
+          loginBox.style.animation = "";
+        }, 500);
+        
+        // Focus the input
+        document.getElementById("username").focus();
+      }
+    }
+
+    // Add Enter key functionality
+    document.getElementById("username").addEventListener("keypress", function(e) {
+      if (e.key === "Enter") {
+        join();
+      }
+    });
+
+    // Remove error when typing
+    document.getElementById("username").addEventListener("input", function() {
+      document.getElementById("error-message").classList.remove("show");
+    });
+
+    // Initialize particles.js with responsive settings
+    function initParticles() {
+      const isMobile = window.innerWidth < 768;
+      
+      particlesJS("particles-js", {
+        "particles": {
+          "number": {
+            "value": isMobile ? 30 : 50,
+            "density": {
+              "enable": true,
+              "value_area": isMobile ? 600 : 800
+            }
+          },
+          "color": { "value": "#ffffff" },
+          "shape": {
+            "type": "circle",
+            "stroke": { "width": 0, "color": "#000000" }
+          },
+          "opacity": {
+            "value": 0.7,
+            "random": true,
+            "anim": {
+              "enable": false
+            }
+          },
+          "size": {
+            "value": isMobile ? 2 : 3,
+            "random": true
+          },
+          "line_linked": {
+            "enable": false
+          },
+          "move": {
+            "enable": true,
+            "speed": isMobile ? 1 : 1.5,
+            "direction": "left",
+            "out_mode": "out"
+          }
+        },
+        "interactivity": {
+          "detect_on": "canvas",
+          "events": {
+            "onhover": {
+              "enable": !isMobile,
+              "mode": "repulse"
+            },
+            "onclick": {
+              "enable": !isMobile,
+              "mode": "push"
+            }
+          }
+        },
+        "retina_detect": true
+      });
+    }
+
+    // Initialize particles on load
+    window.addEventListener('load', initParticles);
+    
+    // Reinitialize particles on resize (with debounce)
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(function() {
+        particlesJS("particles-js", {});
+        initParticles();
+      }, 200);
+    });
+
+
+    if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./sw.js')
+      .then(function(registration) {
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      })
+      .catch(function(err) {
+        console.log('ServiceWorker registration failed: ', err);
+      });
+  });
+}
+
+    
+
+  </script>
+</body>
+</html>
