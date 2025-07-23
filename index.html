@@ -138,6 +138,10 @@
       opacity: 0.9;
     }
 
+    #log-but {
+      z-index:10;
+    }
+
       #messages {
     flex: 1;
     overflow-y: auto;
@@ -180,7 +184,7 @@
       <div class="profile" onclick="toggleDropdown()">
         <img src="https://avatars.githubusercontent.com/u/9919?s=40" alt="profile" style="border-radius: 50%; width: 32px; height: 32px;" />
         <div class="dropdown" id="profileDropdown">
-          <button onclick="logout()">Logout</button>
+          <button onclick="logout()" id="log-but">Logout</button>
         </div>
       </div>
     </div>
