@@ -16,6 +16,8 @@ async function checkAuth() {
     window.location.href = 'login.html'
   }
 }
+
+checkAuth()
 // Load previous messages
 // USERNAME (fallback anonymous)
 const username = localStorage.getItem('username') || prompt('Enter your name') || 'Anonymous'
