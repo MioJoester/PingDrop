@@ -9,13 +9,14 @@ const supabase = createClient(
 
 
 async function checkAuth() {
-  const { data: { user } } = await supabase.auth.getUser()
-  
-  if (!user) {
+  const { data: sessionData, error } = await supabase.auth.getSession()
+
+  if (error || !sessionData.session) {
     // Not logged in → redirect
     window.location.href = 'login.html'
   }
 }
+
 
 checkAuth()
 // Load previous messages
