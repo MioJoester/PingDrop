@@ -9,13 +9,14 @@ const supabase = createClient(
 
 
 supabase.auth.getSession().then(({ data, error }) => {
-  if (error) {
-    console.error('Error fetching session:', error)
-    return
+  if (error || !data.session) {
+    window.location.href = 'login.html'
   }
+})
 
-  if (!data.session) {
-    // User not logged in → redirect
+// Optional: respond to future changes in auth state
+supabase.auth.onAuthStateChange((event, session) => {
+  if (!session) {
     window.location.href = 'login.html'
   }
 })
