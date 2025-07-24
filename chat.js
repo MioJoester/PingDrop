@@ -8,7 +8,14 @@ const supabase = createClient(
 
 
 
-
+async function checkAuth() {
+  const { data: { user } } = await supabase.auth.getUser()
+  
+  if (!user) {
+    // Not logged in → redirect
+    window.location.href = 'login.html'
+  }
+}
 // Load previous messages
 // USERNAME (fallback anonymous)
 const username = localStorage.getItem('username') || prompt('Enter your name') || 'Anonymous'
