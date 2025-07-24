@@ -91,5 +91,18 @@ function addCopyButton(div) {
   div.appendChild(copyBtn)
 }
 
+
+
+document.getElementById('log-but').addEventListener('click', async () => {
+  const { error } = await supabase.auth.signOut()
+  if (error) {
+    console.error('Logout failed:', error.message)
+  } else {
+    // Redirect to login page after logout
+    window.location.href = 'login.html'
+  }
+})
+
+
 // ⏳ On load
 loadMessages()
