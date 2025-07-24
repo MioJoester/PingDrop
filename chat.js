@@ -8,17 +8,18 @@ const supabase = createClient(
 
 
 
-async function checkAuth() {
-  const { data: sessionData, error } = await supabase.auth.getSession()
+supabase.auth.getSession().then(({ data, error }) => {
+  if (error) {
+    console.error('Error fetching session:', error)
+    return
+  }
 
-  if (error || !sessionData.session) {
-    // Not logged in → redirect
+  if (!data.session) {
+    // User not logged in → redirect
     window.location.href = 'login.html'
   }
-}
+})
 
-
-checkAuth()
 // Load previous messages
 // USERNAME (fallback anonymous)
 const username = localStorage.getItem('username') || prompt('Enter your name') || 'Anonymous'
