@@ -88,17 +88,18 @@
 
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-  const supabaseUrl = 'https://wggypsrylatqicuozout.supabase.co'; // replace with your actual Supabase URL
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndnZ3lwc3J5bGF0cWljdW96b3V0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyMzgxODIsImV4cCI6MjA2ODgxNDE4Mn0.oBtTNLgLL-fZnH-6Q1KmveCTu4_3_ZL-f42A14z_8YA'; // replace with your anon/public key
-  const supabase = createClient(supabaseUrl, supabaseKey);
+const client = createClient(
+  'https://wggypsrylatqicuozout.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndnZ3lwc3J5bGF0cWljdW96b3V0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyMzgxODIsImV4cCI6MjA2ODgxNDE4Mn0.oBtTNLgLL-fZnH-6Q1KmveCTu4_3_ZL-f42A14z_8YA'
+);
 
-  // Check session
-supabase.auth.getSession().then(({ data: { session } }) => {
-    if (!session) {
-      // 🛑 Redirect to correct login page path for GitHub Pages
-      window.location.href = './login.html'; 
-    }
-  });
+// ✅ Protect page access
+client.auth.getSession().then(({ data }) => {
+  if (!data.session) {
+    window.location.href = 'login.html';
+  }
+});
+
 </script>
 
 
