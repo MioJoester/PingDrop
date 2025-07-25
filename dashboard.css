@@ -20,6 +20,18 @@ body {
     border: 1px solid #ffffff;  
 }
 
+#log-but {
+    
+    height:30px;
+    width:110px;
+    border-radius:8px;
+    color:red;
+    background-color:#000000;
+    border:1px solid #ffffff;
+    
+    
+}
+
 
 #viewport-nav {
     display: flex;
