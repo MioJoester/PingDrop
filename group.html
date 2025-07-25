@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> PingDrop : Create Group</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="stylesheet" href="group.css">
+
+</head>
+<body>
+    <div id="main-viewport">
+        <headear id="viewport-nav">
+            <h3>Create group</h3>
+            <div id="nav-btn-container">
+                <a id="nav-con-btn" title="back to dashboard" href="dashboard.html"><i class="fas fa-arrow-left"></i></a>
+                <button id="nav-con-btn" title="Search user"><i class="fas fa-search"></i></button>
+                <button id="nav-con-btn" title="Check your inbox"><i class="fas fa-inbox"></i></button>
+                
+            </div>
+      
+
+            
+            <div id="profile-btn"></div>
+        </headear>
+
+
+        <div id="front-section">
+            <div id="form-container">
+                <form id="create-group-form">
+                    <input type="text" id="group-name" placeholder="Group Name" required />
+                    <textarea id="group-desc" placeholder="Description" required></textarea>
+                    <button type="submit" id="generate">Create Group</button>
+                  </form>
+                  
+            </div>
+        </div>
+
+
+
+        </div>
+</body>
+
+
+
+
+<script>
+    const supabase = supabase.createClient("https://wggypsrylatqicuozout.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndnZ3lwc3J5bGF0cWljdW96b3V0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyMzgxODIsImV4cCI6MjA2ODgxNDE4Mn0.oBtTNLgLL-fZnH-6Q1KmveCTu4_3_ZL-f42A14z_8YA");
+  
+    document.getElementById("create-group-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+  
+      const name = document.getElementById("group-name").value.trim();
+      const description = document.getElementById("group-description").value.trim();
+  
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError || !user) {
+        alert("You must be logged in to create a group.");
+        return;
+      }
+  
+      const { data: group, error: groupError } = await supabase
+  .from("groups")
+  .insert({
+    name,
+    description,
+    created_by: user.id,
+    created_at: new Date().toISOString()
+  })
+  .select()
+  .single();
+
+      if (groupError) {
+        console.error(groupError);
+        alert("Failed to create group.");
+        return;
+      }
+  
+      const { error: memberError } = await supabase
+        .from("group_members")
+        .insert({
+          group_id: group.id,
+          user_id: user.id,
+          joined_at: new Date().toISOString()
+        });
+  
+      if (memberError) {
+        console.error(memberError);
+        alert("Group created, but could not add you as a member.");
+      } else {
+        alert("Group created successfully!");
+        window.location.href = "/groups.html";
+      }
+    });
+  </script>
+
+
+
+
+</html>
