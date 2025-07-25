@@ -102,15 +102,11 @@ client.auth.getSession().then(({ data }) => {
 
 
 
-        document.getElementById('log-but').addEventListener('click', async () => {
-  const { error } = await supabase.auth.signOut()
-  if (error) {
-    console.error('Logout failed:', error.message)
-  } else {
-    // Redirect to login page after logout
-    window.location.href = 'login.html'
-  }
-})
+      document.getElementById('log-but').addEventListener('click', async () => {
+  await supabase.auth.signOut();
+  window.location.href = './login.html';
+});
+
 
 </script>
 
