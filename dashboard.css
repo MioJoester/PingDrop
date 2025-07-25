@@ -302,9 +302,8 @@ body {
 
     #group-chatroom-bio {
         font-size: 13px;
-        padding-left:30px;
-    
-        width: 100%;
+        padding-left:34px;
+        width: 90%;
     }
 
     #group-preview {
