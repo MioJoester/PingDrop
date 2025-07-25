@@ -212,7 +212,7 @@ async function loginWithGitHub() {
   const { error } = await client.auth.signInWithOAuth({
     provider: 'github',
     options: {
-      redirectTo: 'https://miojoester.github.io/PingDrop/'
+      redirectTo: 'https://miojoester.github.io/PingDrop/dashboard'
     }
   });
 
