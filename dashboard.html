@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
 
     <title>PingDrop : Dashboard</title>
 </head>
@@ -92,11 +93,12 @@
   const supabase = createClient(supabaseUrl, supabaseKey);
 
   // Check session
-  const { data: { session } } = await supabase.auth.getSession();
-
-  if (!session) {
-    window.location.href = './login.html'; // redirect if not logged in
-  }
+supabase.auth.getSession().then(({ data: { session } }) => {
+    if (!session) {
+      // 🛑 Redirect to correct login page path for GitHub Pages
+      window.location.href = './login.html'; 
+    }
+  });
 </script>
 
 
