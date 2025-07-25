@@ -82,4 +82,25 @@
         </div>
     </div>  
 </body>
+
+    <script type="module">
+
+        <script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  const supabaseUrl = 'https://wggypsrylatqicuozout.supabase.co'; // replace with your actual Supabase URL
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndnZ3lwc3J5bGF0cWljdW96b3V0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyMzgxODIsImV4cCI6MjA2ODgxNDE4Mn0.oBtTNLgLL-fZnH-6Q1KmveCTu4_3_ZL-f42A14z_8YA'; // replace with your anon/public key
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  // Check session
+  const { data: { session } } = await supabase.auth.getSession();
+
+  if (!session) {
+    window.location.href = './login.html'; // redirect if not logged in
+  }
+</script>
+
+
+    
+    </script>
 </html>
