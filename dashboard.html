@@ -103,7 +103,7 @@ client.auth.getSession().then(({ data }) => {
 
 
       document.getElementById('log-but').addEventListener('click', async () => {
-  await supabase.auth.signOut();
+  await client.auth.signOut();
   window.location.href = './login.html';
 });
 
