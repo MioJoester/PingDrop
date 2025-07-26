@@ -372,13 +372,13 @@ body {
     }
 
 
-    #group-chatroom-bio {
+    .group-chatroom-bio {
         font-size: 13px;
         padding-left:30px;
         width: 100%;
     }
 
-    #group-preview {
+    .group-preview {
         height: 600px;
         flex-direction: column;
     }
