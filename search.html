@@ -69,11 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    client.auth.getSession().then(({ data }) => {
-  if (!data.session) {
-    window.location.href = 'login.html';
-  }
-});
+
 
 
 
@@ -83,6 +79,15 @@ const supabase = createClient(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndnZ3lwc3J5bGF0cWljdW96b3V0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyMzgxODIsImV4cCI6MjA2ODgxNDE4Mn0.oBtTNLgLL-fZnH-6Q1KmveCTu4_3_ZL-f42A14z_8YA'
 )
 
+
+
+        client.auth.getSession().then(({ data }) => {
+  if (!data.session) {
+    window.location.href = 'login.html';
+  }
+});
+
+    
 document.getElementById('search-btn').addEventListener('click', () => {
   const query = document.getElementById('universal-search').value.trim();
   if (query.length > 0) {
