@@ -122,8 +122,8 @@ const groupDiv = fragment.querySelector('.group-preview');
 groupDiv.style.display = 'flex'; // ✅ Now it works
 
 groupDiv.querySelector('.group-icon').src = group.icon_url || 'default.png';
-groupDiv.querySelector('.group-chatroom-name').textContent = groups.name;
-groupDiv.querySelector('.group-chatroom-bio').textContent = groups.description || 'No bio yet.';
+groupDiv.querySelector('.group-chatroom-name').textContent = group.name;
+groupDiv.querySelector('.group-chatroom-bio').textContent = group.description || 'No bio yet.';
 groupDiv.querySelector('.con-btn').addEventListener('click', () => {
   console.log(`Joining group: ${groups.name}`);
   // Add your join group logic here
