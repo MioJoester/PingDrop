@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SW Test</title>
+    <link rel="manifest" href="manifest.json" />
+  </head>
+  <body>
+    <h1>Testing Service Worker</h1>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker
+            .register('sw.js')
+            .then((reg) => console.log('SW Registered', reg.scope))
+            .catch((err) => console.error('SW Failed', err));
+        });
+      }
+    </script>
+  </body>
+</html>
