@@ -1,0 +1,25 @@
+{
+    "name": "PingDrop",
+    "short_name": "PingDrop",
+    "start_url": "./index.html",
+    "scope": "./",
+    "display": "standalone",
+    "background_color": "#000000",
+    "theme_color": "#000000",
+    "description": "Real time message app with custom group creation and more",
+    "icons": [
+        {
+            "src": "./asset/logo.jpg",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "./asset/logo.jpg",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        }
+    ],
+    "orientation": "portrait"
+}
