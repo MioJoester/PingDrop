@@ -69,6 +69,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+    client.auth.getSession().then(({ data }) => {
+  if (!data.session) {
+    window.location.href = 'login.html';
+  }
+});
+
+
+
 // 🔁 Replace with your own Supabase project keys
 const supabase = createClient(
   'https://wggypsrylatqicuozout.supabase.co',
