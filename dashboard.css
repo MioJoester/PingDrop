@@ -270,7 +270,14 @@ body {
     padding-right: 30px;
 }
 
-
+ #nav-btn-container-foot {
+        display: none;
+        align-items: center;
+        justify-content: space-around;
+        width: 100%;
+        margin-right: 45px;
+        margin-top: 10px;
+    }
 
 
 
@@ -336,4 +343,15 @@ body {
     .group-info {
         width: 100%;
     }
+
+     #nav-btn-container-foot {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        width: 100%;
+        margin-right: 45px;
+        margin-top: 10px;
+    }
+
+    
 }
