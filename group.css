@@ -172,6 +172,20 @@ body {
     width: 200px;
 }
 
+
+#nav-btn-container-foot {
+    display: none;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: row;
+    height: 100%;
+    width: 330px;
+    background-color: transparent;
+   
+}
+
+
+
 @media (max-width: 768px) {
 
 
@@ -295,5 +309,14 @@ body {
 
     .group-info {
         width: 100%;
+    }    
+
+    #nav-btn-container-foot {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        width: 100%;
+        margin-right: 45px;
+        margin-top: 10px;
     }
 }
