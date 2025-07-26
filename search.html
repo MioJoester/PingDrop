@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="search.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>PindDrop : Search</title>
+</head>
+<body>
+    <div id="main-viewport">
+
+        <header id="viewport-nav">
+            <h3>Search</h3>
+            <div id="nav-btn-container">
+                <a id="nav-con-btn" title="Create a Chatroom" href="group.html"><i class="fas fa-plus"></i></a>
+                <a id="nav-con-btn" title="back to Dashboard" href="dashboard.html"><i class="fas fa-arrow-left"></i></a>
+                <button id="nav-con-btn" title="Check your inbox"><i class="fas fa-inbox"></i></button>
+                
+            </div>
+      
+
+            
+            <div id="profile-btn"></div>
+        </header>
+
+        <div id="front-section">
+            <div id="search-container">
+
+                <div id="wrapper">
+                <input id="universal-search" type="text" placeholder="search user/group">
+                <button id="search-btn"> <i class="fas fa-search"></i></button>
+                </div>
+
+            
+
+         
+
+                <template id="group-preview-template">
+
+                <div class="group-preview" >
+                    <img class="group-icon" src="" draggable="false">
+                    <div class="group-info">
+                      <p class="group-chatroom-name"></p>
+                      <p class="group-chatroom-bio"></p>
+                    </div>
+                    <div class="socialze">
+                      <button class="con-btn">Join</button>
+                    </div>
+                  </div>
+                  </template>
+                  
+            
+
+                  <div id="search-results">  </div>
+        </div>
+
+
+    </div>
+</body>
+
+<script type="module">
+
+
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+
+document.addEventListener('DOMContentLoaded', () => {
+
+
+
+// 🔁 Replace with your own Supabase project keys
+const supabase = createClient(
+  'https://wggypsrylatqicuozout.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndnZ3lwc3J5bGF0cWljdW96b3V0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyMzgxODIsImV4cCI6MjA2ODgxNDE4Mn0.oBtTNLgLL-fZnH-6Q1KmveCTu4_3_ZL-f42A14z_8YA'
+)
+
+document.getElementById('search-btn').addEventListener('click', () => {
+  const query = document.getElementById('universal-search').value.trim();
+  if (query.length > 0) {
+    renderGroupSearchResults(query);
+  }
+});
+
+
+
+
+
+
+async function renderGroupSearchResults(query) {
+  const container = document.getElementById('search-results');
+  container.innerHTML = '';
+
+  const { data: groups, error } = await supabase
+    .from('groups')
+    .select('*')
+    .ilike('name', `%${query}%`);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const template = document.getElementById('group-preview-template');
+
+  groups.forEach(group => {
+    const fragment = template.content.cloneNode(true);
+const groupDiv = fragment.querySelector('.group-preview');
+groupDiv.style.display = 'flex'; // ✅ Now it works
+
+groupDiv.querySelector('.group-icon').src = group.icon_url || 'default.png';
+groupDiv.querySelector('.group-chatroom-name').textContent = groups.name;
+groupDiv.querySelector('.group-chatroom-bio').textContent = groups.description || 'No bio yet.';
+groupDiv.querySelector('.con-btn').addEventListener('click', () => {
+  console.log(`Joining group: ${groups.name}`);
+  // Add your join group logic here
+});
+
+container.appendChild(groupDiv);
+  });
+}
+
+});
+
+</script>
+</html>
