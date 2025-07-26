@@ -336,6 +336,7 @@ body {
 
     #main-viewport {
         height:880px; 
+        border:none;
     
     }
 
@@ -374,13 +375,14 @@ body {
 
     .group-chatroom-bio {
         font-size: 13px;
-        padding-left:30px;
+        padding-left:20px;
+        padding-right:20px;
         width: 100%;
     }
 
     .group-preview {
         height: 300px;
-        width:100%;
+        width:90%;
         flex-direction: column;
     }
 
